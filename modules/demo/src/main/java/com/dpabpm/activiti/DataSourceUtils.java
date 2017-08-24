@@ -9,6 +9,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.activiti.engine.ProcessEngine;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -24,6 +25,8 @@ import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.util.ContentUtil;
 
 public class DataSourceUtils {
+	
+	private static ProcessEngine _processEngine = null;
 
 	/**
 	 * @param actionRequest
@@ -60,7 +63,7 @@ public class DataSourceUtils {
 	public static DataSource getLiferayDataSource() throws Exception {
 
 		DataSourceBean dataSourceBean = getDataSourceBeanFromGlobalProperties();
-
+		
 		return DataSourceFactoryUtil.initDataSource(dataSourceBean.getDriver(), dataSourceBean.getUrl(),
 				dataSourceBean.getDbuser(), dataSourceBean.getDbpassw(), null);
 	}
@@ -70,7 +73,6 @@ public class DataSourceUtils {
 		String url = PrefsPropsUtil.getString("jdbc.default.url");
 		String dbuser = PrefsPropsUtil.getString("jdbc.default.username");
 		String dbpassw = PrefsPropsUtil.getString("jdbc.default.password");
-		System.out.println("dbpassw ==== " + dbpassw);
 		if(_log.isInfoEnabled()) {
 			_log.info("dbpassw ==== " + dbpassw);
 		}
