@@ -1,10 +1,6 @@
 
 package com.dpabpm.portlet;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +8,6 @@ import java.util.Map;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
@@ -22,10 +17,9 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.ArrayUtils;
 import org.osgi.service.component.annotations.Component;
-import org.xml.sax.SAXException;
 
-import com.dpabpm.activiti.ActivityUtils;
 import com.dpabpm.constants.DemoPortletKeys;
+import com.dpabpm.singleton.SingletonUtils;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -48,8 +42,8 @@ import com.liferay.util.ContentUtil;
 }, service = Portlet.class)
 public class DemoPortlet extends MVCPortlet {
 	
-	public void deployProcess(ActionRequest actionRequest, ActionResponse actionResponse) throws ParserConfigurationException, SAXException, IOException {
-		ProcessEngine processEngine = ActivityUtils.getProcessEngine();
+	public void deployProcess(ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
+		ProcessEngine processEngine = SingletonUtils.INSTANCE.getProcEngineSingleton();
 		
 		RepositoryService repositoryService = processEngine.getRepositoryService();
 		
@@ -58,7 +52,7 @@ public class DemoPortlet extends MVCPortlet {
 		repositoryService.createDeployment().addString("demo.bpmn20.xml", bpmXmlString).deploy();
 	}
 	
-	public void handleDossier(ActionRequest actionRequest, ActionResponse actionResponse) throws ParserConfigurationException, SAXException, IOException {
+	public void handleDossier(ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
 		String name = ParamUtil.getString(actionRequest, "name");
 
 		String content = ParamUtil.getString(actionRequest, "content");
@@ -67,7 +61,7 @@ public class DemoPortlet extends MVCPortlet {
         variables.put("name", name);
         variables.put("content", content);
 		
-		ProcessEngine processEngine = ActivityUtils.getProcessEngine();
+		ProcessEngine processEngine = SingletonUtils.INSTANCE.getProcEngineSingleton();
 		
 		RuntimeService runtimeService = processEngine.getRuntimeService();
 		
@@ -86,7 +80,7 @@ public class DemoPortlet extends MVCPortlet {
 		}
 	}
 	
-	public void completeTask(ActionRequest actionRequest, ActionResponse actionResponse) throws ParserConfigurationException, SAXException, IOException {
+	public void completeTask(ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
 		long taskId = ParamUtil.getLong(actionRequest, "taskId");
 		
 		boolean isApproved = ParamUtil.getBoolean(actionRequest, "isApproved");
@@ -110,7 +104,7 @@ public class DemoPortlet extends MVCPortlet {
 			variables.put("isApproved", isApproved);
 		}
 		
-		ProcessEngine processEngine = ActivityUtils.getProcessEngine();
+		ProcessEngine processEngine = SingletonUtils.INSTANCE.getProcEngineSingleton();
 		
 		TaskService taskService = processEngine.getTaskService();
 	

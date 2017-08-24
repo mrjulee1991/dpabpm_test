@@ -1,22 +1,20 @@
 package com.dpabpm.activiti;
 
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
+import javax.sql.DataSource;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration;
-import org.apache.commons.dbcp.BasicDataSource;
-import org.xml.sax.SAXException;
 
 public class ActivityUtils {
 	
 	public static ProcessEngine getProcessEngine()
-			throws ParserConfigurationException, SAXException, IOException {
+			throws Exception {
 		
 		StandaloneProcessEngineConfiguration scfg = new StandaloneProcessEngineConfiguration();
 		
-		BasicDataSource dataSource = DataSourceUtils.getDataSource();
+		// BasicDataSource dataSource = DataSourceUtils.getDataSource();
+		
+		DataSource dataSource = DataSourceUtils.getLiferayDataSource();
 		
 		scfg.setDataSource(dataSource);
 		
