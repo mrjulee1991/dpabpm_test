@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+	<driver>com.mysql.jdbc.Driver</driver>
+	<dbuser>root</dbuser>
+	<dbpassw>Phucnv@123</dbpassw>
+	<url>jdbc:mysql://localhost:3306/liferay7ga3?autoReconnect=true</url>
+	<minpoolsize>50</minpoolsize>
+	<maxpoolsize>1000</maxpoolsize>
+	<MaxOpenPreparedStatement>1800</MaxOpenPreparedStatement>
+</database>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="demo" name="Demo" isExecutable="true">
+    <startEvent id="start" name="Start"></startEvent>
+    <userTask id="handleDossier" name="Handle dossier"></userTask>
+    <userTask id="reviewByEmployee" name="Review (employee)" activiti:assignee="${submitedEmployee}" activiti:candidateGroups="33884"></userTask>
+    <userTask id="reviewByManager" name="Review (manager)" activiti:candidateGroups="33885"></userTask>
+    <exclusiveGateway id="approvedDecision" name="Approved decision"></exclusiveGateway>
+    <sequenceFlow id="sid-D821B16E-C92A-4E66-A877-612845535C8A" sourceRef="start" targetRef="handleDossier"></sequenceFlow>
+    <sequenceFlow id="sid-DE5389AA-195A-4B8B-8448-D5329045EE54" sourceRef="handleDossier" targetRef="reviewByEmployee"></sequenceFlow>
+    <sequenceFlow id="sid-4FAE8E33-1F33-48E2-A877-66AFF3E349FB" sourceRef="reviewByEmployee" targetRef="reviewByManager"></sequenceFlow>
+    <sequenceFlow id="sid-E586097F-DB0F-4215-B25C-A0ABBADE67DE" sourceRef="reviewByManager" targetRef="approvedDecision"></sequenceFlow>
+    <endEvent id="end" name="End"></endEvent>
+    <sequenceFlow id="sid-83EF8188-2AA4-4B30-A06B-CA60689E377A" name="!isApproved" sourceRef="approvedDecision" targetRef="reviewByEmployee">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isApproved == 'false'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-7EFF8CF6-51C0-47D5-B378-1C806A7437BD" name="isApproved" sourceRef="approvedDecision" targetRef="end">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${isApproved == 'true'}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_demo">
+    <bpmndi:BPMNPlane bpmnElement="demo" id="BPMNPlane_demo">
+      <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_start">
+        <omgdc:Bounds height="30.0" width="30.0" x="75.0" y="74.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="handleDossier" id="BPMNShape_handleDossier">
+        <omgdc:Bounds height="80.0" width="100.0" x="201.5" y="49.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="reviewByEmployee" id="BPMNShape_reviewByEmployee">
+        <omgdc:Bounds height="80.0" width="100.0" x="360.0" y="49.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="reviewByManager" id="BPMNShape_reviewByManager">
+        <omgdc:Bounds height="80.0" width="100.0" x="525.0" y="49.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approvedDecision" id="BPMNShape_approvedDecision">
+        <omgdc:Bounds height="40.0" width="40.0" x="555.0" y="176.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="end" id="BPMNShape_end">
+        <omgdc:Bounds height="28.0" width="28.0" x="721.5" y="182.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-83EF8188-2AA4-4B30-A06B-CA60689E377A" id="BPMNEdge_sid-83EF8188-2AA4-4B30-A06B-CA60689E377A">
+        <omgdi:waypoint x="562.7692307692307" y="188.23076923076923"></omgdi:waypoint>
+        <omgdi:waypoint x="460.0" y="121.4773413897281"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-7EFF8CF6-51C0-47D5-B378-1C806A7437BD" id="BPMNEdge_sid-7EFF8CF6-51C0-47D5-B378-1C806A7437BD">
+        <omgdi:waypoint x="594.5595611285266" y="196.44043887147336"></omgdi:waypoint>
+        <omgdi:waypoint x="721.5000683588743" y="196.04374978637853"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-E586097F-DB0F-4215-B25C-A0ABBADE67DE" id="BPMNEdge_sid-E586097F-DB0F-4215-B25C-A0ABBADE67DE">
+        <omgdi:waypoint x="575.0" y="129.0"></omgdi:waypoint>
+        <omgdi:waypoint x="575.0" y="176.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-4FAE8E33-1F33-48E2-A877-66AFF3E349FB" id="BPMNEdge_sid-4FAE8E33-1F33-48E2-A877-66AFF3E349FB">
+        <omgdi:waypoint x="460.0" y="89.0"></omgdi:waypoint>
+        <omgdi:waypoint x="525.0" y="89.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-DE5389AA-195A-4B8B-8448-D5329045EE54" id="BPMNEdge_sid-DE5389AA-195A-4B8B-8448-D5329045EE54">
+        <omgdi:waypoint x="301.5" y="89.0"></omgdi:waypoint>
+        <omgdi:waypoint x="360.0" y="89.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-D821B16E-C92A-4E66-A877-612845535C8A" id="BPMNEdge_sid-D821B16E-C92A-4E66-A877-612845535C8A">
+        <omgdi:waypoint x="105.0" y="89.0"></omgdi:waypoint>
+        <omgdi:waypoint x="201.5" y="89.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

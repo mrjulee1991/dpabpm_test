@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="abcd" name="abc" isExecutable="true">
+    <startEvent id="startOnboarding" name="Start"></startEvent>
+    <userTask id="enterOnboardingData" name="Enter data">
+      <extensionElements>
+        <activiti:formProperty id="fullName" name="Full name" type="string"></activiti:formProperty>
+        <activiti:formProperty id="yearsOfExperience" name="Years of Experience" type="long"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="decision" name="Years of Experience" default="sid-782699CF-63D3-4C40-96EA-2FEE35C0D02A"></exclusiveGateway>
+    <sequenceFlow id="sid-84C1BB33-6360-4DE8-971B-009A05FFAC9C" sourceRef="startOnboarding" targetRef="enterOnboardingData"></sequenceFlow>
+    <userTask id="personalizedIntro" name="Personalized Introduction and Data Entry">
+      <extensionElements>
+        <activiti:formProperty id="personalWelcomeTime" name="Personal Welcome Time" type="string"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <endEvent id="endOnboarding" name="End"></endEvent>
+    <scriptTask id="automatedIntro" name="Generic and Automated Data Entry" scriptFormat="javascript" activiti:autoStoreVariables="false">
+      <script><![CDATA[var dateAsString = new Date().toString();
+execution.setVariable("autoWelcomeTime", dateAsString);]]></script>
+    </scriptTask>
+    <sequenceFlow id="sid-2B16508B-0E9F-4F01-854A-16A1BCE7DBA7" sourceRef="automatedIntro" targetRef="endOnboarding"></sequenceFlow>
+    <sequenceFlow id="sid-62B0626F-E9F1-4C54-AABC-2AAC3369B556" sourceRef="enterOnboardingData" targetRef="decision"></sequenceFlow>
+    <userTask id="firstTask" name="Task 1">
+      <extensionElements>
+        <activiti:formProperty id="personalWelcomeTime" name="Personal Welcome Time" type="string"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="sid-782699CF-63D3-4C40-96EA-2FEE35C0D02A" sourceRef="decision" targetRef="automatedIntro"></sequenceFlow>
+    <sequenceFlow id="personalizedIntroPath" name="&gt; 3" sourceRef="decision" targetRef="personalizedIntro">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${yearsOfExperience > 3}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="secondTask" name="Task 2">
+      <extensionElements>
+        <activiti:formProperty id="personalWelcomeTime" name="Personal Welcome Time" type="string"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="sid-ED6CAA78-66F3-40C7-8FFA-3CF1FE074A77" sourceRef="personalizedIntro" targetRef="secondTask"></sequenceFlow>
+    <userTask id="thirdTask" name="Task 3">
+      <extensionElements>
+        <activiti:formProperty id="personalWelcomeTime" name="Personal Welcome Time" type="string"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="sid-17968E7F-D88A-450A-8D90-C976269713DB" sourceRef="personalizedIntro" targetRef="firstTask"></sequenceFlow>
+    <sequenceFlow id="sid-A07A6A7B-F6B0-4DA3-883F-05CF6ADF7884" sourceRef="firstTask" targetRef="thirdTask"></sequenceFlow>
+    <sequenceFlow id="sid-6D999715-7D8B-4423-94CD-D25E24C7D6D5" sourceRef="secondTask" targetRef="thirdTask"></sequenceFlow>
+    <sequenceFlow id="sid-97EEF567-2D02-4D0A-8B3A-3123D0160503" sourceRef="thirdTask" targetRef="endOnboarding"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_abcd">
+    <bpmndi:BPMNPlane bpmnElement="abcd" id="BPMNPlane_abcd">
+      <bpmndi:BPMNShape bpmnElement="startOnboarding" id="BPMNShape_startOnboarding">
+        <omgdc:Bounds height="30.0" width="30.0" x="60.0" y="102.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="enterOnboardingData" id="BPMNShape_enterOnboardingData">
+        <omgdc:Bounds height="80.0" width="100.0" x="165.0" y="77.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="decision" id="BPMNShape_decision">
+        <omgdc:Bounds height="40.0" width="40.0" x="345.0" y="97.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="personalizedIntro" id="BPMNShape_personalizedIntro">
+        <omgdc:Bounds height="80.0" width="100.0" x="532.5" y="69.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endOnboarding" id="BPMNShape_endOnboarding">
+        <omgdc:Bounds height="28.0" width="28.0" x="891.0" y="225.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="automatedIntro" id="BPMNShape_automatedIntro">
+        <omgdc:Bounds height="80.0" width="100.0" x="532.5" y="315.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="firstTask" id="BPMNShape_firstTask">
+        <omgdc:Bounds height="80.0" width="100.0" x="705.0" y="0.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="secondTask" id="BPMNShape_secondTask">
+        <omgdc:Bounds height="80.0" width="100.0" x="705.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="thirdTask" id="BPMNShape_thirdTask">
+        <omgdc:Bounds height="80.0" width="100.0" x="855.0" y="69.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-84C1BB33-6360-4DE8-971B-009A05FFAC9C" id="BPMNEdge_sid-84C1BB33-6360-4DE8-971B-009A05FFAC9C">
+        <omgdi:waypoint x="90.0" y="117.0"></omgdi:waypoint>
+        <omgdi:waypoint x="165.0" y="117.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-A07A6A7B-F6B0-4DA3-883F-05CF6ADF7884" id="BPMNEdge_sid-A07A6A7B-F6B0-4DA3-883F-05CF6ADF7884">
+        <omgdi:waypoint x="805.0" y="63.0"></omgdi:waypoint>
+        <omgdi:waypoint x="855.0" y="86.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-62B0626F-E9F1-4C54-AABC-2AAC3369B556" id="BPMNEdge_sid-62B0626F-E9F1-4C54-AABC-2AAC3369B556">
+        <omgdi:waypoint x="265.0" y="117.0"></omgdi:waypoint>
+        <omgdi:waypoint x="345.0" y="117.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-97EEF567-2D02-4D0A-8B3A-3123D0160503" id="BPMNEdge_sid-97EEF567-2D02-4D0A-8B3A-3123D0160503">
+        <omgdi:waypoint x="905.0" y="149.0"></omgdi:waypoint>
+        <omgdi:waypoint x="905.0" y="225.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-782699CF-63D3-4C40-96EA-2FEE35C0D02A" id="BPMNEdge_sid-782699CF-63D3-4C40-96EA-2FEE35C0D02A">
+        <omgdi:waypoint x="374.54994511525797" y="127.45005488474204"></omgdi:waypoint>
+        <omgdi:waypoint x="545.9453781512605" y="315.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-6D999715-7D8B-4423-94CD-D25E24C7D6D5" id="BPMNEdge_sid-6D999715-7D8B-4423-94CD-D25E24C7D6D5">
+        <omgdi:waypoint x="805.0" y="143.0"></omgdi:waypoint>
+        <omgdi:waypoint x="855.0" y="126.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="personalizedIntroPath" id="BPMNEdge_personalizedIntroPath">
+        <omgdi:waypoint x="384.29046563192907" y="116.29046563192904"></omgdi:waypoint>
+        <omgdi:waypoint x="532.5" y="110.83908045977012"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-ED6CAA78-66F3-40C7-8FFA-3CF1FE074A77" id="BPMNEdge_sid-ED6CAA78-66F3-40C7-8FFA-3CF1FE074A77">
+        <omgdi:waypoint x="632.5" y="123.78260869565219"></omgdi:waypoint>
+        <omgdi:waypoint x="705.0" y="145.2173913043478"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-2B16508B-0E9F-4F01-854A-16A1BCE7DBA7" id="BPMNEdge_sid-2B16508B-0E9F-4F01-854A-16A1BCE7DBA7">
+        <omgdi:waypoint x="632.5" y="337.015503875969"></omgdi:waypoint>
+        <omgdi:waypoint x="891.8262748929632" y="243.73845616253107"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-17968E7F-D88A-450A-8D90-C976269713DB" id="BPMNEdge_sid-17968E7F-D88A-450A-8D90-C976269713DB">
+        <omgdi:waypoint x="632.5" y="89.0"></omgdi:waypoint>
+        <omgdi:waypoint x="705.0" y="60.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
