@@ -9,7 +9,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.activiti.engine.ProcessEngine;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -26,8 +25,6 @@ import com.liferay.util.ContentUtil;
 
 public class DataSourceUtils {
 	
-	private static ProcessEngine _processEngine = null;
-
 	/**
 	 * @param actionRequest
 	 * @return
