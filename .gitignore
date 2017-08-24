@@ -22,6 +22,7 @@
 /plugins-sdk/dist
 /plugins-sdk/lib
 test-results
+/home/dunglt/bpm_giaoduc/ws_test/modules/demo/bin*
 
 # ignore everything
 *
