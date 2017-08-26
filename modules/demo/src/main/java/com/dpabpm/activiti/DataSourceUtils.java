@@ -3,6 +3,7 @@ package com.dpabpm.activiti;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Properties;
 
 import javax.sql.DataSource;
 import javax.xml.parsers.DocumentBuilder;
@@ -61,8 +62,14 @@ public class DataSourceUtils {
 
 		DataSourceBean dataSourceBean = getDataSourceBeanFromGlobalProperties();
 		
-		return DataSourceFactoryUtil.initDataSource(dataSourceBean.getDriver(), dataSourceBean.getUrl(),
-				dataSourceBean.getDbuser(), dataSourceBean.getDbpassw(), null);
+		Properties properties = new Properties();
+		
+		properties.setProperty("driverClassName", dataSourceBean.getDriver());
+		properties.setProperty("url", dataSourceBean.getUrl());
+		properties.setProperty("userName", dataSourceBean.getDbuser());
+		properties.setProperty("password", dataSourceBean.getDbpassw());
+		
+		return DataSourceFactoryUtil.initDataSource(properties);
 	}
 
 	private static DataSourceBean getDataSourceBeanFromGlobalProperties() {
